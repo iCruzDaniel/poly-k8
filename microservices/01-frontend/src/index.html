@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Polyglot K8s Mesh</title>
+    <style>
+        body { font-family: monospace; background: #0f172a; color: #f8fafc; padding: 2rem; }
+        .card { background: #1e293b; border: 1px solid #334155; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; }
+        button { background: #3b82f6; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; }
+        pre { background: #020617; padding: 1rem; border-radius: 4px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>Polyglot Microservices Dashboard (K8s)</h1>
+    <div class="card">
+        <button onclick="testApi('/api/auth/validate')">Probar Auth</button>
+        <button onclick="testApi('/api/analytics')">Probar Analytics</button>
+        <button onclick="testApi('/api/process')">Probar Data Processor</button>
+    </div>
+    <div class="card">
+        <h3>Respuesta:</h3>
+        <pre id="output">Haz clic en un botón para ejecutar llamada inter-servicio...</pre>
+    </div>
+    <script>
+        async function testApi(endpoint) {
+            const out = document.getElementById('output');
+            out.textContent = "Cargando...";
+            try {
+                const res = await fetch(endpoint);
+                const data = await res.json();
+                out.textContent = JSON.stringify(data, null, 2);
+            } catch (err) {
+                out.textContent = "Error: " + err.message;
+            }
+        }
+    </script>
+</body>
+</html>
